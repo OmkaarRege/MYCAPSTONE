@@ -1,0 +1,131 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+public class MainPlayerMovement : MonoBehaviour
+{
+    public Transform cameraLocation;
+
+    private bool hasTriggeredMinigame1 = false;
+    private bool hasTriggeredMinigame2 = false;    
+    private bool canInteract = false;
+    private string interactTarget = "";   // stores which interactable we're near
+
+    public GameObject obj;
+
+    public float movementspeed;
+    Vector2 look;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateMovement();
+        UpdateLook();
+        if (canInteract && Input.GetKeyDown(KeyCode.E))
+        {
+            if (interactTarget == "Interactable 1" && !hasTriggeredMinigame1)
+            {
+                hasTriggeredMinigame1 = true;
+                LoadMiniGame("MiniGame 1");
+            }
+            else if (interactTarget == "Interactable 2" && !hasTriggeredMinigame2)
+            {
+                hasTriggeredMinigame2 = true;
+                LoadMiniGame("MiniGame 2");
+            }
+        }
+        
+    }
+    void UpdateLook()
+    {
+        look.x += Input.GetAxis("Mouse X");
+        look.y += Input.GetAxis("Mouse Y");
+        look.y = Mathf.Clamp(look.y, -89f, 89f);
+        cameraLocation.localRotation = Quaternion.Euler(-look.y, 0, 0);
+        transform.localRotation = Quaternion.Euler(0, look.x, 0);
+    }
+    void UpdateMovement()
+    {
+        var x = Input.GetAxis("Horizontal");
+        var y = Input.GetAxis("Vertical");
+
+        var input = new Vector3();
+        input += transform.forward * y;
+        input += transform.right * x;
+        input = Vector3.ClampMagnitude(input, 1f);
+        transform.Translate(input * movementspeed * Time.deltaTime, Space.World);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Interactable"))
+            return;
+
+        // Ignore objects whose minigame is already completed
+        if ((other.name == "Interactable 1" && hasTriggeredMinigame1) ||
+            (other.name == "Interactable 2" && hasTriggeredMinigame2))
+            return;
+
+        // Store which interactable the player is near
+        interactTarget = other.name;
+        canInteract = true;
+
+        // Show "Press E" text
+        GameObject canvas = GameObject.Find("PlayerCanvas");
+        if (canvas != null)
+        {
+            GameObject text = canvas.transform.Find("InteractText").gameObject;
+            text.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Interactable"))
+            return;
+
+        // Reset
+        canInteract = false;
+        interactTarget = "";
+
+        // Hide UI text
+        GameObject canvas = GameObject.Find("PlayerCanvas");
+        if (canvas != null)
+        {
+            GameObject text = canvas.transform.Find("InteractText").gameObject;
+            text.SetActive(false);
+        }
+    }
+    void LateUpdate()
+    {
+        // Get the camera's target position and the object's position
+        Vector3 targetPosition = cameraLocation.transform.position;
+        Vector3 objectPosition = transform.position;
+
+        // Create a new target position with the same Y value as the object
+        Vector3 lookAtTarget = new Vector3(targetPosition.x, objectPosition.y, targetPosition.z);
+
+        if (obj!=null)
+        {
+        // Point the object at the new target
+        obj.transform.LookAt(lookAtTarget);
+        }
+
+    }
+    private void LoadMiniGame(string sceneName)
+    {
+        // Hide UI before loading the scene
+        GameObject canvas = GameObject.Find("PlayerCanvas");
+        if (canvas != null)
+        {
+            GameObject text = canvas.transform.Find("InteractText").gameObject;
+            text.SetActive(false);
+        }
+
+        // Load the minigame scene
+        SceneManager.LoadScene(sceneName);
+    }
+}
