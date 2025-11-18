@@ -82,10 +82,10 @@ public class Minigame2 : MonoBehaviour
            TMP_Text timerText = timerGO.GetComponent<TMP_Text>();
 
            
-           scoreText.text = score.ToString() + "/3";
+           scoreText.text = "Score "+score.ToString() + "/3";
 
            
-           timerText.text = Mathf.CeilToInt(timer).ToString();
+           timerText.text = "Time left "+Mathf.CeilToInt(timer).ToString();
         }
 
 
