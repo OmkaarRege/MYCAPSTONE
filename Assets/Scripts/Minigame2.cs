@@ -15,6 +15,7 @@ public class Minigame2 : MonoBehaviour
 
     public GameObject[] healthyfood;
     public GameObject[] unhealthfood;
+    public bool scoreupdated =false;
 
     public List<GameObject> moving = new List<GameObject>(); // changed to List
 
@@ -25,7 +26,7 @@ public class Minigame2 : MonoBehaviour
     void Start()
     {
         score=0;
-        timer=15;
+        timer=25;
     }
 
     void Update()
@@ -100,7 +101,7 @@ public class Minigame2 : MonoBehaviour
         }
         else if (timer >0f)
         {
-            if (score>3)
+            if (score>2)
             {
                 SceneManager.LoadScene("MainScene");
             }
@@ -110,6 +111,7 @@ public class Minigame2 : MonoBehaviour
        {
         foreach (GameObject obj in moving)
         {
+           
             if (obj == null) continue;
 
             float xPos = obj.transform.position.x;
@@ -127,9 +129,10 @@ public class Minigame2 : MonoBehaviour
                     speed += 0.5f; // example increment
                     Debug.Log("Heart rate increased! New speed: " + speed);
                 }
-                // Increment score
-                score++;
-                Debug.Log("Score: " + score);
+               
+                
+
+                
 
                 // Optional: destroy caught object
                 Destroy(obj);
