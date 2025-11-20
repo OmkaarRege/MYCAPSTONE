@@ -8,7 +8,7 @@ public class MainPlayerMovement : MonoBehaviour
     private bool hasTriggeredMinigame2 = false;    
     private bool canInteract = false;
     private string interactTarget = "";   // stores which interactable we're near
-
+    public Rigidbody rb;
     public GameObject obj;
 
     public float movementspeed;
@@ -18,6 +18,12 @@ public class MainPlayerMovement : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody component not found on this GameObject.");
+            enabled = false; // Disable script if no Rigidbody is found
+        }
     }
 
     // Update is called once per frame
@@ -57,7 +63,7 @@ public class MainPlayerMovement : MonoBehaviour
         input += transform.forward * y;
         input += transform.right * x;
         input = Vector3.ClampMagnitude(input, 1f);
-        transform.Translate(input * movementspeed * Time.deltaTime, Space.World);
+        rb.linearVelocity = input * movementspeed;
     }
     private void OnTriggerEnter(Collider other)
     {

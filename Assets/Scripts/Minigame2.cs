@@ -115,7 +115,7 @@ public class Minigame2 : MonoBehaviour
             if (obj == null) continue;
 
             float xPos = obj.transform.position.x;
-            if (xPos < -4f && xPos > -6f)
+            if (xPos < -4f && xPos > -7f)
             {
                 if (obj.CompareTag("FoodHealthy"))
                 {

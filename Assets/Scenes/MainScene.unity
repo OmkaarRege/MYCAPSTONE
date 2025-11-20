@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainPlayerMovement
   cameraLocation: {fileID: 424593092}
+  rb: {fileID: 144657713}
   obj: {fileID: 0}
   movementspeed: 4
 --- !u!54 &144657713

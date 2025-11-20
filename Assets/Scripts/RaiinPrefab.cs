@@ -29,7 +29,7 @@ public class RaiinPrefab : MonoBehaviour
         transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
 
        
-        if (transform.position.y < 1 && transform.position.y > 0)
+        if (transform.position.y < 1 && transform.position.y > -0.5f)
         {
             // Get player's X position (rounded to nearest int)
             playerX = Mathf.RoundToInt(player.transform.position.x);
