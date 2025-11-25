@@ -694,7 +694,6 @@ GameObject:
   m_Component:
   - component: {fileID: 259209214}
   - component: {fileID: 259209217}
-  - component: {fileID: 259209216}
   - component: {fileID: 259209215}
   m_Layer: 0
   m_Name: MirrorCamera
@@ -712,7 +711,7 @@ Transform:
   m_GameObject: {fileID: 259209213}
   serializedVersion: 2
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.056, y: -0.040000003, z: 0.21000004}
   m_LocalScale: {x: 0.5903445, y: 0.25505403, z: 0.29539162}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -762,14 +761,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &259209216
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 259209213}
-  m_Enabled: 1
 --- !u!20 &259209217
 Camera:
   m_ObjectHideFlags: 0
@@ -2992,8 +2983,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1589846083}
   - component: {fileID: 1589846082}
+  - component: {fileID: 1589846084}
   - component: {fileID: 1589846081}
-  - component: {fileID: 1589846080}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Untagged
@@ -3001,27 +2992,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1589846080
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589846079}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1589846081
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3094,6 +3064,21 @@ Transform:
   - {fileID: 259209214}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1589846084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589846079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2bb1262b4a2e2499447749133a189e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mirror
+  player: {fileID: 144657707}
+  mirrorCamera: {fileID: 259209213}
+  smoothSpeed: 1
 --- !u!1 &1598302294
 GameObject:
   m_ObjectHideFlags: 0
