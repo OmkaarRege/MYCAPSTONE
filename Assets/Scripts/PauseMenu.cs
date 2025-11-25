@@ -5,7 +5,7 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
 
-    public bool ispaused;
+    public bool ispaused,isminigame1done,isminigame2done;
 
     private static PauseMenu instance; // singleton to avoid duplicates
 

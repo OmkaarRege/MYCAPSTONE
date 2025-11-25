@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 144657708}
   - component: {fileID: 144657713}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -250,6 +250,7 @@ MonoBehaviour:
   cameraLocation: {fileID: 424593092}
   rb: {fileID: 144657713}
   obj: {fileID: 0}
+  pauseMenuObject: {fileID: 0}
   movementspeed: 4
 --- !u!54 &144657713
 Rigidbody:
@@ -1048,8 +1049,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 6.7686205
-  m_Height: 13.537241
+  m_Radius: 5
+  m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &430301398
@@ -1161,8 +1162,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 6.7686205
-  m_Height: 13.537241
+  m_Radius: 5
+  m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &476080806
@@ -3352,8 +3353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.461487, y: -12.4489}
-  m_SizeDelta: {x: 1229.094, y: 764.4933}
+  m_AnchoredPosition: {x: 44.461487, y: -72.326}
+  m_SizeDelta: {x: 1229.094, y: 644.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1870305726
 MonoBehaviour:
@@ -3517,7 +3518,7 @@ GameObject:
   - component: {fileID: 2071409410}
   - component: {fileID: 2071409409}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3628,7 +3629,7 @@ GameObject:
   - component: {fileID: 2091586311}
   - component: {fileID: 2091586310}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3775,7 +3776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -3843,6 +3844,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pauseMenu: {fileID: 1870305724}
   ispaused: 0
+  isminigame1done: 0
+  isminigame2done: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

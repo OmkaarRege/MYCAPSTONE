@@ -4,12 +4,12 @@ public class MainPlayerMovement : MonoBehaviour
 {
     public Transform cameraLocation;
 
-    private bool hasTriggeredMinigame1 = false;
-    private bool hasTriggeredMinigame2 = false;    
     private bool canInteract = false;
     private string interactTarget = "";   // stores which interactable we're near
     public Rigidbody rb;
-    public GameObject obj;
+    public GameObject obj,pauseMenuObject;
+
+    PauseMenu pauseMenu;
 
     public float movementspeed;
     Vector2 look;
@@ -24,6 +24,14 @@ public class MainPlayerMovement : MonoBehaviour
             Debug.LogError("Rigidbody component not found on this GameObject.");
             enabled = false; // Disable script if no Rigidbody is found
         }
+
+        pauseMenuObject = GameObject.Find("PauseMenu");
+        if (pauseMenuObject!=null)
+        {
+            pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+        }
+
+
     }
 
     // Update is called once per frame
@@ -31,16 +39,16 @@ public class MainPlayerMovement : MonoBehaviour
     {
         UpdateMovement();
         UpdateLook();
-        if (canInteract && Input.GetKeyDown(KeyCode.E))
+        if (canInteract && Input.GetKeyDown(KeyCode.E)&&pauseMenuObject!=null)
         {
-            if (interactTarget == "Interactable 1" && !hasTriggeredMinigame1)
+            if (interactTarget == "Interactable 1" && !pauseMenu.isminigame1done)
             {
-                hasTriggeredMinigame1 = true;
+                pauseMenu.isminigame1done = true;
                 LoadMiniGame("MiniGame 1");
             }
-            else if (interactTarget == "Interactable 2" && !hasTriggeredMinigame2)
+            else if (interactTarget == "Interactable 2" && !pauseMenu.isminigame2done)
             {
-                hasTriggeredMinigame2 = true;
+                pauseMenu.isminigame2done = true;
                 LoadMiniGame("MiniGame 2");
             }
         }
@@ -71,8 +79,8 @@ public class MainPlayerMovement : MonoBehaviour
             return;
 
         // Ignore objects whose minigame is already completed
-        if ((other.name == "Interactable 1" && hasTriggeredMinigame1) ||
-            (other.name == "Interactable 2" && hasTriggeredMinigame2))
+        if ((other.name == "Interactable 1" && pauseMenu.isminigame1done) ||
+            (other.name == "Interactable 2" && pauseMenu.isminigame2done))
             return;
 
         // Store which interactable the player is near
