@@ -41,14 +41,14 @@ public class MainPlayerMovement : MonoBehaviour
         UpdateLook();
         if (canInteract && Input.GetKeyDown(KeyCode.E)&&pauseMenuObject!=null)
         {
-            if (interactTarget == "Interactable 1" && !pauseMenu.isminigame1done)
+            if (interactTarget == "Interactable 1")
             {
-                pauseMenu.isminigame1done = true;
+                
                 LoadMiniGame("MiniGame 1");
             }
-            else if (interactTarget == "Interactable 2" && !pauseMenu.isminigame2done)
+            else if (interactTarget == "Interactable 2" )
             {
-                pauseMenu.isminigame2done = true;
+                
                 LoadMiniGame("MiniGame 2");
             }
         }
@@ -78,10 +78,7 @@ public class MainPlayerMovement : MonoBehaviour
         if (!other.CompareTag("Interactable"))
             return;
 
-        // Ignore objects whose minigame is already completed
-        if ((other.name == "Interactable 1" && pauseMenu.isminigame1done) ||
-            (other.name == "Interactable 2" && pauseMenu.isminigame2done))
-            return;
+        
 
         // Store which interactable the player is near
         interactTarget = other.name;
