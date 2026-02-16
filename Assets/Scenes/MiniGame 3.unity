@@ -501,6 +501,9 @@ MonoBehaviour:
   finalColor: {r: 0.8666667, g: 0, b: 1, a: 1}
   startDarkFactor: 0.3
   pullsToFullColor: 3
+  idleSpeed: 1
+  returnSpeed: 1
+  rotatePerUnit: 500
 --- !u!4 &737664402
 Transform:
   m_ObjectHideFlags: 0

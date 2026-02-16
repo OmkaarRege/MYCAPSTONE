@@ -51,6 +51,11 @@ public class MainPlayerMovement : MonoBehaviour
                 
                 LoadMiniGame("MiniGame 2");
             }
+            else if (interactTarget == "Interactable 3" )
+            {
+                
+                LoadMiniGame("MiniGame 3");
+            }
         }
         
     }

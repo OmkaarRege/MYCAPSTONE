@@ -1,11 +1,13 @@
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
+using System.Collections;
+
 public class Minigame3 : MonoBehaviour
 {
     public GameObject flower;
-    public GameObject pullString;
-
-    
+    public GameObject pullString; 
     private float fixedY;
     private float fixedZ;
 
@@ -13,6 +15,8 @@ public class Minigame3 : MonoBehaviour
     private bool isDragging;
 
     private float startStringX;
+
+    private Collider2D stringCol;
 
     public float maxX = 0.25f;
      public float maxDetectEpsilon = 0.001f;   
@@ -37,10 +41,33 @@ public class Minigame3 : MonoBehaviour
     private SpriteRenderer flowerSprite;
     private Renderer flowerMeshRenderer;
 
+    [Header("Idle String Motion")]
+    public float idleSpeed = .25f;     // cycles per second-ish (tweak)
+
+    private float idlePhase;   
+    private float idleTimer;
+
+    private float idleMinX;
+    private float idleMaxX;
+
+    public float returnSpeed=4f;
+
+    private bool isReturning;
+
+    private Coroutine returnRoutine;
+
+    [Header("Flower Rotation From String Motion")]
+    public float rotatePerUnit = 500f; // degrees per unit of X movement (tweak)
+    private float lastStringX;
+
     
     void Start()
     {
-        // Lock Y and Z at start
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // Lock Y and Z at 
+        // start
         fixedY = pullString.transform.position.y;
         fixedZ = pullString.transform.position.z;
 
@@ -59,6 +86,20 @@ public class Minigame3 : MonoBehaviour
         );
 
         SetFlowerColor(startColor);
+
+        stringCol = pullString.GetComponent<Collider2D>();
+        if (stringCol == null) stringCol = pullString.GetComponentInChildren<Collider2D>();
+        float maxPullDistance = maxX - startStringX;          // how far right you can pull
+        idleMinX = startStringX + (maxPullDistance *0.2f);     
+        idleMaxX = startStringX + ( maxPullDistance*0.5f);
+
+        // Safety clamp (in case of weird setup)
+        idleMinX = Mathf.Clamp(idleMinX, startStringX, maxX);
+        idleMaxX = Mathf.Clamp(idleMaxX, startStringX, maxX);
+
+        SyncIdlePhaseToCurrentX();
+
+        lastStringX = pullString.transform.position.x;
         
     }
 
@@ -68,19 +109,38 @@ public class Minigame3 : MonoBehaviour
      // ✅ Calculate offset once when mouse is pressed down
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = Camera.main.WorldToScreenPoint(pullString.transform.position).z;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
 
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            if (isReturning) return;
 
-            dragOffsetX = pullString.transform.position.x - worldPos.x;
-            isDragging = true;
+            // Only start drag if we actually clicked the string collider (or a child collider)
+            if (hit.collider != null && (hit.collider == stringCol || hit.collider.transform.IsChildOf(pullString.transform)))
+            {
+              // Use the hit point so offset is correct and no snapping
+              dragOffsetX = pullString.transform.position.x - hit.point.x;
+              isDragging = true;
+            }
+            Debug.Log("Clicked. Raycast hit: " + (hit.collider ? hit.collider.name : "NONE"));
+            Debug.Log("Cached stringCol: " + (stringCol ? stringCol.name : "NULL"));
         }
 
         // ✅ Stop dragging on release
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
+            if (!isReturning)
+            StartCoroutine(ReturnToOneFifth());
+        }
+        if (!isDragging&& !isReturning)
+        {
+          float center = (idleMinX + idleMaxX) * 0.5f;
+          float amp = (idleMaxX - idleMinX) * 0.5f;
+
+          // Smooth back-and-forth
+          float x = center + amp * Mathf.Sin((Time.time * idleSpeed * Mathf.PI * 2f) + idlePhase);
+
+          pullString.transform.position = new Vector3(x, fixedY, fixedZ);
         }
 
         // Track mouse X while held (optional)
@@ -127,6 +187,11 @@ public class Minigame3 : MonoBehaviour
 
             currentPulls = Mathf.Clamp(currentPulls + 1, 0, pullsToFullColor);
 
+            if (currentPulls >= pullsToFullColor)
+            {
+              SceneManager.LoadScene("MainScene");
+            }
+
             float t = (float)currentPulls / pullsToFullColor;
             Color newColor = Color.Lerp(startColor, finalColor, t);
 
@@ -138,6 +203,16 @@ public class Minigame3 : MonoBehaviour
         {
             pullArmed = true;
         }
+        float currentX = pullString.transform.position.x;
+        float dx = currentX - lastStringX;              // how much string moved this frame
+
+        // Rotate flower in same "direction" as string motion.
+
+        float rotationThisFrame = dx * 20;
+
+        flower.transform.Rotate(0f, 0f, rotationThisFrame);
+
+        lastStringX = currentX;
     }
     private void SetFlowerColor(Color c)
     {
@@ -153,7 +228,55 @@ public class Minigame3 : MonoBehaviour
             flowerMeshRenderer.material.color = c;
         }
     }
+    private IEnumerator ReturnToOneFifth()
+{
+    isReturning = true;
 
+    if (stringCol != null)
+        stringCol.enabled = false;
+
+    float maxPullDistance = maxX - startStringX;
+    float targetX = startStringX + (maxPullDistance * 0.2f); // 1/5th
+
+    while (Mathf.Abs(pullString.transform.position.x - targetX) > 0.1f)
+    {
+        float newX = Mathf.MoveTowards(
+            pullString.transform.position.x,
+            targetX,
+            returnSpeed * Time.deltaTime
+        );
+
+        pullString.transform.position = new Vector3(newX, fixedY, fixedZ);
+
+        yield return null;
+    }
+
+    pullString.transform.position = new Vector3(targetX, fixedY, fixedZ);
+
+    SyncIdlePhaseToCurrentX();
+
+    if (stringCol != null)
+        stringCol.enabled = true;
+
+    isReturning = false;
+}
+private void SyncIdlePhaseToCurrentX()
+{
+    float center = (idleMinX + idleMaxX) * 0.5f;
+    float amp = (idleMaxX - idleMinX) * 0.5f;
+
+    if (amp <= 0.0001f)
+    {
+        idlePhase = 0f;
+        return;
+    }
+
+    float normalized = Mathf.Clamp((pullString.transform.position.x - center) / amp, -1f, 1f);
+    float angle = Mathf.Asin(normalized);
+
+    // Make sine equal current X at the current Time.time
+    idlePhase = angle - (Time.time * idleSpeed * Mathf.PI * 2f);
+}
             
            
         
