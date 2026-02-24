@@ -12,6 +12,15 @@ public class MainPlayerMovement : MonoBehaviour
     PauseMenu pauseMenu;
 
     public float movementspeed;
+
+    [SerializeField] public GameObject interactText; 
+
+    [SerializeField] public GameObject area1Text;    // Area 1 prompt
+    [SerializeField] public GameObject area2Text;    // Area 2 prompt
+
+    private static bool mg1Loaded = false;
+    private static bool mg2Loaded = false;
+
     Vector2 look;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -43,12 +52,13 @@ public class MainPlayerMovement : MonoBehaviour
         {
             if (interactTarget == "Interactable 1")
             {
+                mg1Loaded=true;
                 
                 LoadMiniGame("MiniGame 1");
             }
             else if (interactTarget == "Interactable 2" )
             {
-                
+                mg2Loaded=true;
                 LoadMiniGame("MiniGame 2");
             }
             else if (interactTarget == "Interactable 3" )
@@ -78,43 +88,58 @@ public class MainPlayerMovement : MonoBehaviour
         input = Vector3.ClampMagnitude(input, 1f);
         rb.linearVelocity = input * movementspeed;
     }
-    private void OnTriggerEnter(Collider other)
+   private void OnTriggerEnter(Collider other)
+{
+    // 1) Area prompts (UI only)
+    if (other.CompareTag("InteractableTag1"))
     {
-        if (!other.CompareTag("Interactable"))
-            return;
-
-        
-
-        // Store which interactable the player is near
-        interactTarget = other.name;
-        canInteract = true;
-
-        // Show "Press E" text
-        GameObject canvas = GameObject.Find("PlayerCanvas");
-        if (canvas != null)
-        {
-            GameObject text = canvas.transform.Find("InteractText").gameObject;
-            text.SetActive(true);
-        }
+        if (area1Text != null&&!mg1Loaded) area1Text.SetActive(true);
+        return;
     }
+
+    if (other.CompareTag("InteractableTag2"))
+    {
+        if (area2Text != null&&!mg2Loaded) area2Text.SetActive(true);
+        return;
+    }
+
+    // 2) Minigame interactables
+    if (!other.CompareTag("Interactable"))
+        return;
+
+    interactTarget = other.name;
+    canInteract = true;
+
+    // Show "Press E"
+    if (interactText != null)
+        interactText.SetActive(true);
+}
 
     private void OnTriggerExit(Collider other)
+{
+    // Area prompts
+    if (other.CompareTag("InteractableTag1"))
     {
-        if (!other.CompareTag("Interactable"))
-            return;
-
-        // Reset
-        canInteract = false;
-        interactTarget = "";
-
-        // Hide UI text
-        GameObject canvas = GameObject.Find("PlayerCanvas");
-        if (canvas != null)
-        {
-            GameObject text = canvas.transform.Find("InteractText").gameObject;
-            text.SetActive(false);
-        }
+        if (area1Text != null) area1Text.SetActive(false);
+        return;
     }
+
+    if (other.CompareTag("InteractableTag2"))
+    {
+        if (area2Text != null) area2Text.SetActive(false);
+        return;
+    }
+
+    // Minigame interactables
+    if (!other.CompareTag("Interactable"))
+        return;
+
+    canInteract = false;
+    interactTarget = "";
+
+    if (interactText != null)
+        interactText.SetActive(false);
+}
     void LateUpdate()
     {
         // Get the camera's target position and the object's position

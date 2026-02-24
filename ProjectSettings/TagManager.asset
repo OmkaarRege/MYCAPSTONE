@@ -7,6 +7,8 @@ TagManager:
   - Interactable
   - FoodUnhealthy
   - FoodHealthy
+  - InteractableTag1
+  - InteractableTag2
   layers:
   - Default
   - TransparentFX
