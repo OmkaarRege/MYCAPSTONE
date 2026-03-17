@@ -11,6 +11,8 @@ public class MainPlayerMovement : MonoBehaviour
 
     PauseMenu pauseMenu;
 
+    public Vector3 minigame1rotation,minigame2rotation,minigame1Pos,minigame2Pos;
+
     public float movementspeed;
 
     [SerializeField] public GameObject interactText; 
@@ -38,6 +40,17 @@ public class MainPlayerMovement : MonoBehaviour
         if (pauseMenuObject!=null)
         {
             pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+        }
+
+        if (pauseMenu.minigame1complete)
+        {
+            transform.position = new Vector3(-8,0.3f,1);
+            transform.rotation = Quaternion.identity;
+        }
+        if (pauseMenu.minigame2complete)
+        {
+            transform.position = new Vector3(10,0.3f,-7.5f);
+            transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
         }
 
 
@@ -71,8 +84,8 @@ public class MainPlayerMovement : MonoBehaviour
     }
     void UpdateLook()
     {
-        look.x += Input.GetAxis("Mouse X");
-        look.y += Input.GetAxis("Mouse Y");
+        look.x += Input.GetAxis("Mouse X")*2;
+        look.y += Input.GetAxis("Mouse Y")*2;
         look.y = Mathf.Clamp(look.y, -89f, 89f);
         cameraLocation.localRotation = Quaternion.Euler(-look.y, 0, 0);
         transform.localRotation = Quaternion.Euler(0, look.x, 0);

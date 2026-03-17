@@ -8,12 +8,13 @@ public class Minigame1 : MonoBehaviour
     public GameObject prefabToSpawn;      // The falling prefab
     public float spawnInterval;    // Time between spawns
     private float nextSpawnTime = 0f;
+    public GameObject pauseMenuObject;
 
     public int num,score = 5;
 
     private Camera mainCamera;
     public float moveSpeed, upspeed, initialX,initialY, screenWidth, screenHeight,timer;
-  
+    PauseMenu pauseMenu;
     private Vector2 screenBounds;
     private SpriteRenderer spriteRenderer;
 
@@ -23,6 +24,11 @@ public class Minigame1 : MonoBehaviour
 
     void Start()
     {
+        pauseMenuObject = GameObject.Find("PauseMenu");
+        if (pauseMenuObject!=null)
+        {
+            pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+        }
         mainCamera = Camera.main;
         screenHeight = mainCamera.orthographicSize * 2;
         screenWidth = screenHeight * mainCamera.aspect;
@@ -78,7 +84,10 @@ public class Minigame1 : MonoBehaviour
         {
             if (score>9)
             {
+                pauseMenu.minigame2complete=false;
+                pauseMenu.minigame1complete=true;
                 SceneManager.LoadScene("MainScene");
+                
             }
             
         }

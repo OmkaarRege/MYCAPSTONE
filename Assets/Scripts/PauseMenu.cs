@@ -5,9 +5,11 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
 
-    public bool ispaused,isminigame1done,isminigame2done;
+    public bool ispaused,isminigame1done,isminigame2done,isminigame3done;
 
-    private static PauseMenu instance; // singleton to avoid duplicates
+    public bool tutorialComplete,minigame1complete,minigame2complete;
+
+    public static PauseMenu instance; // singleton to avoid duplicates
 
     void Awake()
     {

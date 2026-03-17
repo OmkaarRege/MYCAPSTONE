@@ -17,14 +17,21 @@ public class Minigame2 : MonoBehaviour
     public GameObject[] unhealthfood;
     public bool scoreupdated =false;
 
-    public List<GameObject> moving = new List<GameObject>(); // changed to List
+    PauseMenu pauseMenu;
 
+    public List<GameObject> moving = new List<GameObject>(); // changed to List
+    public GameObject pauseMenuObject;
     private float nextSpawnTime = 0f;
     public float spawnInterval = 3f; // 2 seconds
     private bool spawnHealthyNext = true; // alternates each spawn
 
     void Start()
     {
+        pauseMenuObject = GameObject.Find("PauseMenu");
+        if (pauseMenuObject!=null)
+        {
+            pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+        }
         score=0;
         timer=25;
     }
@@ -103,6 +110,8 @@ public class Minigame2 : MonoBehaviour
         {
             if (score>2)
             {
+                pauseMenu.minigame1complete=false;
+                pauseMenu.minigame2complete=true;
                 SceneManager.LoadScene("MainScene");
             }
             
