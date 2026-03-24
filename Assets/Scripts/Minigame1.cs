@@ -35,6 +35,7 @@ public class Minigame1 : MonoBehaviour
         SpriteRenderer spriteRenderer = playerObject.GetComponent<SpriteRenderer>();
         halfPlayerWidth = spriteRenderer.bounds.size.x / 2f;
         initialX = playerObject.transform.position.x;
+        pauseMenu.isdialoguebox1done=true;
         score=0;
         timer=15;
        

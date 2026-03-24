@@ -103,18 +103,7 @@ public class MainPlayerMovement : MonoBehaviour
     }
    private void OnTriggerEnter(Collider other)
 {
-    // 1) Area prompts (UI only)
-    if (other.CompareTag("InteractableTag1"))
-    {
-        if (area1Text != null&&!mg1Loaded) area1Text.SetActive(true);
-        return;
-    }
-
-    if (other.CompareTag("InteractableTag2"))
-    {
-        if (area2Text != null&&!mg2Loaded) area2Text.SetActive(true);
-        return;
-    }
+   
 
     // 2) Minigame interactables
     if (!other.CompareTag("Interactable"))
@@ -130,18 +119,6 @@ public class MainPlayerMovement : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
 {
-    // Area prompts
-    if (other.CompareTag("InteractableTag1"))
-    {
-        if (area1Text != null) area1Text.SetActive(false);
-        return;
-    }
-
-    if (other.CompareTag("InteractableTag2"))
-    {
-        if (area2Text != null) area2Text.SetActive(false);
-        return;
-    }
 
     // Minigame interactables
     if (!other.CompareTag("Interactable"))
