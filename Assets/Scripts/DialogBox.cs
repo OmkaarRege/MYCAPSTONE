@@ -55,7 +55,7 @@ public class DialogBox : MonoBehaviour
                 {
                         StartDialogue();
                 }
-              if (dialogueID == 2&&!pauseMenu.isdialoguebox2done)
+              if (dialogueID == 2 && !pauseMenu.isdialoguebox2done)
                 {
                         StartDialogue();
                 }

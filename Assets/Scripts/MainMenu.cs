@@ -11,10 +11,11 @@ public class MainMenu : MonoBehaviour
         if (pauseMenuObject!=null)
         {
             pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+            pauseMenu.isminigame1done=false;
+            pauseMenu.isminigame2done=false;
+            pauseMenu.tutorialComplete=false;
         }
-        pauseMenu.isminigame1done=false;
-        pauseMenu.isminigame2done=false;
-        pauseMenu.tutorialComplete=false;
+        
        
     }
     

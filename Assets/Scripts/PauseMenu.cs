@@ -60,6 +60,12 @@ public class PauseMenu : MonoBehaviour
     }
     public void mainmenu()
     {
+        minigame2complete=false;
+        minigame1complete=false;
+        tutorialComplete=false;
+        isdialoguebox1done=false;
+        isdialoguebox2done=false;
+        isdialoguebox3done=false;
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1f;
         pauseMenu.SetActive(false);

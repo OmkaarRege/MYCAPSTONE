@@ -34,6 +34,7 @@ public class Minigame2 : MonoBehaviour
         }
         score=0;
         timer=25;
+        pauseMenu.isdialoguebox2done=true;
     }
 
     void Update()
