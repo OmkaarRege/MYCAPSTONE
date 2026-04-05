@@ -31,10 +31,11 @@ public class Minigame2 : MonoBehaviour
         if (pauseMenuObject!=null)
         {
             pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+            pauseMenu.isdialoguebox2done=true;
         }
         score=0;
         timer=25;
-        pauseMenu.isdialoguebox2done=true;
+        
     }
 
     void Update()
@@ -111,8 +112,12 @@ public class Minigame2 : MonoBehaviour
         {
             if (score>2)
             {
-                pauseMenu.minigame1complete=false;
-                pauseMenu.minigame2complete=true;
+                if (pauseMenu!=null)
+                {
+                    pauseMenu.minigame1complete=false;
+                    pauseMenu.minigame2complete=true;
+                }
+                
                 SceneManager.LoadScene("MainScene");
             }
             

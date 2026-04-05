@@ -28,6 +28,7 @@ public class Minigame1 : MonoBehaviour
         if (pauseMenuObject!=null)
         {
             pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
+            pauseMenu.isdialoguebox1done=true;
         }
         mainCamera = Camera.main;
         screenHeight = mainCamera.orthographicSize * 2;
@@ -35,7 +36,6 @@ public class Minigame1 : MonoBehaviour
         SpriteRenderer spriteRenderer = playerObject.GetComponent<SpriteRenderer>();
         halfPlayerWidth = spriteRenderer.bounds.size.x / 2f;
         initialX = playerObject.transform.position.x;
-        pauseMenu.isdialoguebox1done=true;
         score=0;
         timer=15;
        
@@ -58,24 +58,18 @@ public class Minigame1 : MonoBehaviour
         GameObject canvas = GameObject.Find("Minigame1 Canvas");
         if (canvas != null)
         {
-           
-
            // Get the Text component
            TMP_Text scoreText = scoreGO.GetComponent<TMP_Text>();
            TMP_Text timerText = timerGO.GetComponent<TMP_Text>();
 
-           
            scoreText.text = "Score "+score.ToString() + "/10";
 
-           
            timerText.text = "Time left "+Mathf.CeilToInt(timer).ToString();
         }
 
-
         // Countdown timer
         timer -= Time.deltaTime;
-        timer = Mathf.Max(timer, 0f);
-       
+        timer = Mathf.Max(timer, 0f);       
 
         if (timer <= 0f)
         {
@@ -85,15 +79,17 @@ public class Minigame1 : MonoBehaviour
         {
             if (score>9)
             {
+                if (pauseMenu!=null)
+                {        
                 pauseMenu.minigame2complete=false;
                 pauseMenu.minigame1complete=true;
+               
+                }
                 SceneManager.LoadScene("MainScene");
-                
             }
             
         }
-    }
-    
+    }    
     void Move()
     {
         Vector2 movement = new Vector2(0,upspeed);
@@ -103,13 +99,11 @@ public class Minigame1 : MonoBehaviour
             {
                 movement.x -= 1f;
             }
-
             // Check for 'D' or Right Arrow key press
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 movement.x += 1f;
             }
-
             // Normalize the movement vector to prevent faster diagonal movement
             if (movement.magnitude > 1f)
             {
@@ -120,32 +114,32 @@ public class Minigame1 : MonoBehaviour
             playerObject.transform.Translate(movement * moveSpeed * Time.deltaTime);
     }
     void HandleSpawning()
-{
-    if (Time.time >= nextSpawnTime)
     {
+        if (Time.time >= nextSpawnTime)
+        {
         SpawnFallingObject();
         nextSpawnTime = Time.time + spawnInterval;
+        }
     }
-}
 
-void SpawnFallingObject()
-{
-    // Random X position within screen bounds
-    float randomX = Random.Range(
-        initialX - (screenWidth / 2),
-        initialX + (screenWidth / 2)
-    );
+    void SpawnFallingObject()
+    {
+       // Random X position within screen bounds
+       float randomX = Random.Range(
+         initialX - (screenWidth / 2),
+         initialX + (screenWidth / 2)
+        );
 
-    // Top of the camera view
-    float spawnY = mainCamera.transform.position.y + (screenHeight+1);
+        // Top of the camera view
+       float spawnY = mainCamera.transform.position.y + (screenHeight+1);
 
-    Vector3 spawnPosition = new Vector3(0f, spawnY, 0f);
+       Vector3 spawnPosition = new Vector3(0f, spawnY, 0f);
 
-    Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
-    int change = Random.value < 0.5f ? -1 : 1;
-    num += change;
-    num = Mathf.Clamp(num, 0, 10);  
-}
+       Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+       int change = Random.value < 0.5f ? -1 : 1;
+       num += change;
+       num = Mathf.Clamp(num, 0, 10);  
+    }
 
 
 

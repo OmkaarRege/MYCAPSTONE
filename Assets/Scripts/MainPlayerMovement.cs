@@ -50,7 +50,7 @@ public class MainPlayerMovement : MonoBehaviour
         if (pauseMenu.minigame2complete)
         {
             transform.position = new Vector3(10,0.3f,-7.5f);
-            transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
+            
         }
 
 
@@ -85,9 +85,7 @@ public class MainPlayerMovement : MonoBehaviour
     void UpdateLook()
     {
         look.x += Input.GetAxis("Mouse X")*2;
-        look.y += Input.GetAxis("Mouse Y")*2;
-        look.y = Mathf.Clamp(look.y, -89f, 89f);
-        cameraLocation.localRotation = Quaternion.Euler(-look.y, 0, 0);
+       
         transform.localRotation = Quaternion.Euler(0, look.x, 0);
     }
     void UpdateMovement()
@@ -102,7 +100,7 @@ public class MainPlayerMovement : MonoBehaviour
         rb.linearVelocity = input * movementspeed;
     }
    private void OnTriggerEnter(Collider other)
-{
+    {
    
 
     // 2) Minigame interactables
@@ -115,10 +113,10 @@ public class MainPlayerMovement : MonoBehaviour
     // Show "Press E"
     if (interactText != null)
         interactText.SetActive(true);
-}
+    }
 
     private void OnTriggerExit(Collider other)
-{
+    {
 
     // Minigame interactables
     if (!other.CompareTag("Interactable"))
@@ -129,7 +127,7 @@ public class MainPlayerMovement : MonoBehaviour
 
     if (interactText != null)
         interactText.SetActive(false);
-}
+    }
     void LateUpdate()
     {
         // Get the camera's target position and the object's position
