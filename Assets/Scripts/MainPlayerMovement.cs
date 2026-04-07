@@ -114,6 +114,7 @@ public class MainPlayerMovement : MonoBehaviour
     if (interactText != null)
         interactText.SetActive(true);
     }
+    
 
     private void OnTriggerExit(Collider other)
     {

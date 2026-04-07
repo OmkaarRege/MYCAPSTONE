@@ -20,7 +20,10 @@ public class Minigame1 : MonoBehaviour
 
     private float halfPlayerWidth;
 
-    
+    public GameObject loseScreenCanvas;
+
+    public GameObject winScreenCanvas;
+    private bool gameEnded = false;
 
     void Start()
     {
@@ -30,6 +33,14 @@ public class Minigame1 : MonoBehaviour
             pauseMenu=pauseMenuObject.GetComponent<PauseMenu>();
             pauseMenu.isdialoguebox1done=true;
         }
+        if (loseScreenCanvas != null)
+        {
+          loseScreenCanvas.SetActive(false);
+        }
+        if (winScreenCanvas != null)
+        {
+           winScreenCanvas.SetActive(false);
+        }
         mainCamera = Camera.main;
         screenHeight = mainCamera.orthographicSize * 2;
         screenWidth = screenHeight * mainCamera.aspect;
@@ -37,12 +48,13 @@ public class Minigame1 : MonoBehaviour
         halfPlayerWidth = spriteRenderer.bounds.size.x / 2f;
         initialX = playerObject.transform.position.x;
         score=0;
-        timer=15;
+        timer=30;
        
     }
 
     void Update()
     {
+        if (gameEnded) return;
         Move();
         
         Vector3 p = playerObject.transform.position;
@@ -73,7 +85,7 @@ public class Minigame1 : MonoBehaviour
 
         if (timer <= 0f)
         {
-            SceneManager.LoadScene("MiniGame 1");
+            LoseGame();
         }
         else if (timer >0f)
         {
@@ -85,7 +97,7 @@ public class Minigame1 : MonoBehaviour
                 pauseMenu.minigame1complete=true;
                
                 }
-                SceneManager.LoadScene("MainScene");
+                StartCoroutine(WinSequence());
             }
             
         }
@@ -138,7 +150,34 @@ public class Minigame1 : MonoBehaviour
        Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
        int change = Random.value < 0.5f ? -1 : 1;
        num += change;
-       num = Mathf.Clamp(num, 0, 10);  
+       num = Mathf.Clamp(num, 0, 5);  
+    }
+    void LoseGame()
+    {
+      gameEnded = true;
+
+      if (loseScreenCanvas != null)
+       {
+        loseScreenCanvas.SetActive(true);
+       }
+    }
+    private System.Collections.IEnumerator WinSequence()
+    {
+    gameEnded = true;
+
+    // Stop player movement
+    moveSpeed = 0f;
+    upspeed = 0f;
+
+    // Show win screen
+    if (winScreenCanvas != null)
+    {
+        winScreenCanvas.SetActive(true);
+    }
+
+    yield return new WaitForSeconds(3f);
+
+    SceneManager.LoadScene("MainScene");
     }
 
 

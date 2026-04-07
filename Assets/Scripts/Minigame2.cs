@@ -25,6 +25,11 @@ public class Minigame2 : MonoBehaviour
     public float spawnInterval = 3f; // 2 seconds
     private bool spawnHealthyNext = true; // alternates each spawn
 
+    public GameObject loseScreenCanvas;
+
+    public GameObject winScreenCanvas;
+    private bool gameEnded = false;
+
     void Start()
     {
         pauseMenuObject = GameObject.Find("PauseMenu");
@@ -106,7 +111,7 @@ public class Minigame2 : MonoBehaviour
 
         if (timer <= 0f)
         {
-            SceneManager.LoadScene("MiniGame 2");
+            LoseGame();
         }
         else if (timer >0f)
         {
@@ -118,7 +123,7 @@ public class Minigame2 : MonoBehaviour
                     pauseMenu.minigame2complete=true;
                 }
                 
-                SceneManager.LoadScene("MainScene");
+                StartCoroutine(WinSequence());
             }
             
         }
@@ -174,6 +179,32 @@ public class Minigame2 : MonoBehaviour
         Vector3 spawnPos = new Vector3(12f, 0f, -1f);
         int randomIndex = Random.Range(0, unhealthfood.Length);
         return Instantiate(unhealthfood[randomIndex], spawnPos, Quaternion.identity);
+    }
+
+    void LoseGame()
+    {
+        gameEnded = true;
+
+        if (loseScreenCanvas != null)
+        {
+        loseScreenCanvas.SetActive(true);
+        }
+    }
+    private System.Collections.IEnumerator WinSequence()
+    {
+      gameEnded = true;
+
+      
+
+      // Show win screen
+      if (winScreenCanvas != null)
+      {
+        winScreenCanvas.SetActive(true);
+      }
+
+      yield return new WaitForSeconds(3f);
+
+      SceneManager.LoadScene("MainScene");
     }
 
         

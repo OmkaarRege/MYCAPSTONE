@@ -29,7 +29,7 @@ public class RaiinPrefab : MonoBehaviour
         transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
 
        
-        if (transform.position.y < 1.5f && transform.position.y > -0.5f)
+        if (transform.position.y < 1.5f && transform.position.y > -1.5f)
         {
             // Get player's X position (rounded to nearest int)
             playerX = Mathf.RoundToInt(player.transform.position.x);
@@ -38,7 +38,7 @@ public class RaiinPrefab : MonoBehaviour
             Debug.Log("Player X: " + playerX + " | Rain Number: " + number);
 
             // If player X matches this rain's index number
-            if ((playerX==2 && number ==4)||(playerX==4 && number ==3)||(playerX==6 && number ==2)|| (playerX==8 && number ==1) || (playerX==10 && number == 0)||(playerX==0 && number ==5)||(playerX==-2 && number ==6)||(playerX==-4 && number ==7)||(playerX==-6 && number ==8)|| (playerX==-8 && number ==9) || (playerX==-10 && number == 10))
+            if ((playerX==2 && number ==2)||(playerX==6 && number ==1)||(playerX==-2 && number ==3)||(playerX==-6 && number ==4)|| (playerX==10 && number ==0) || (playerX==-10 && number == 5))
             {
                 healthyrain[number].SetActive(false);
 

@@ -15,7 +15,8 @@ public class MainMenu : MonoBehaviour
             pauseMenu.isminigame2done=false;
             pauseMenu.tutorialComplete=false;
         }
-        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
        
     }
     
