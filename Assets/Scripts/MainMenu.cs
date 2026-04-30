@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
     
     public void play()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("Intro");
       
         
     }

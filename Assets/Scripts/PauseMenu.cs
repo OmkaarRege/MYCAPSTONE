@@ -36,7 +36,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (SceneManager.GetActiveScene().name != "MainMenu")
+            if (SceneManager.GetActiveScene().name != "MainMenu" || SceneManager.GetActiveScene().name != "Intro")
             {
             if (ispaused)
             {

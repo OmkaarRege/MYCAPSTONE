@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class GameIntro : MonoBehaviour
 {
     [Header("UI Reference")]
@@ -56,6 +56,7 @@ public class GameIntro : MonoBehaviour
                 if (timer >= moveToTopDuration)
                 {
                     currentState = State.Done;
+                    SceneManager.LoadScene("MainScene");
                 }
                 break;
         }
