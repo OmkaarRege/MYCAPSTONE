@@ -13,7 +13,7 @@ public class GameIntro : MonoBehaviour
 
     [Header("Timing")]
     public float moveToMiddleDuration = 2f;
-    public float hoverDuration = 10f;
+    public float hoverDuration = 4f;
     public float moveToTopDuration = 2f;
 
     private float timer = 0f;
