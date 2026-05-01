@@ -169,7 +169,7 @@ public class Minigame2 : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(12f, 0f, -1f);
         int randomIndex = Random.Range(0, healthyfood.Length);
-        return Instantiate(healthyfood[randomIndex], spawnPos, Quaternion.identity);
+        return Instantiate(healthyfood[randomIndex], spawnPos, healthyfood[randomIndex].transform.rotation);
     }
 
     GameObject SpawnUnhealthyFood()
@@ -178,7 +178,7 @@ public class Minigame2 : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(12f, 0f, -1f);
         int randomIndex = Random.Range(0, unhealthfood.Length);
-        return Instantiate(unhealthfood[randomIndex], spawnPos, Quaternion.identity);
+        return Instantiate(unhealthfood[randomIndex], spawnPos, unhealthfood[randomIndex].transform.rotation);
     }
 
     void LoseGame()
