@@ -55,11 +55,11 @@ public class DialogBox : MonoBehaviour
                 {
                         StartDialogue();
                 }
-              if (dialogueID == 2 && !pauseMenu.isdialoguebox2done)
+              if (dialogueID == 2 && !pauseMenu.isdialoguebox2done&& pauseMenu.isdialoguebox1done)
                 {
                         StartDialogue();
                 }
-              if (dialogueID == 3&&!pauseMenu.isdialoguebox3done)
+              if (dialogueID == 3&&!pauseMenu.isdialoguebox3done&& pauseMenu.isdialoguebox2done && pauseMenu.isdialoguebox1done)
                 {
                         StartDialogue();
                 }

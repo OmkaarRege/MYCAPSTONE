@@ -60,6 +60,8 @@ public class Minigame3 : MonoBehaviour
     public float rotatePerUnit = 500f; // degrees per unit of X movement (tweak)
     private float lastStringX;
 
+    public GameObject winScreenCanvas;
+
     
     void Start()
     {
@@ -189,7 +191,7 @@ public class Minigame3 : MonoBehaviour
 
             if (currentPulls >= pullsToFullColor)
             {
-              SceneManager.LoadScene("MainScene");
+              StartCoroutine(WinSequence());
             }
 
             float t = (float)currentPulls / pullsToFullColor;
@@ -277,6 +279,22 @@ private void SyncIdlePhaseToCurrentX()
     // Make sine equal current X at the current Time.time
     idlePhase = angle - (Time.time * idleSpeed * Mathf.PI * 2f);
 }
+private System.Collections.IEnumerator WinSequence()
+    {
+     
+
+      
+
+      // Show win screen
+      if (winScreenCanvas != null)
+      {
+        winScreenCanvas.SetActive(true);
+      }
+
+      yield return new WaitForSeconds(5f);
+
+      SceneManager.LoadScene("MainMenu");
+    }
             
            
         
